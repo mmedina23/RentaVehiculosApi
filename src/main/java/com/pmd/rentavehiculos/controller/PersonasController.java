@@ -9,19 +9,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 @RestController
 public class PersonasController implements PersonasApi {
 
     private final PersonaService personaService;
+
+    public PersonasController(PersonaService personaService) {
+        this.personaService = personaService;
+    }
 
     @Override
     public ResponseEntity<List<PersonaDto>> obtenerPersona() {
         var personas = personaService.obtenerPersona();
         var dtos = personas.stream().map(it ->
             new PersonaDto()
-                    .id(it.getId())
-                    .nombre(it.getNombre())
+                    .id(it.id)
+                    .nombre(it.nombre)
         ).toList();
 
         return ResponseEntity.ok(dtos);
@@ -32,8 +35,8 @@ public class PersonasController implements PersonasApi {
         var persona = personaService.obtenerPersonaPorId(id);
         var dto = persona.map(it ->
                 new PersonaDto()
-                        .id(it.getId())
-                        .nombre(it.getNombre())
+                        .id(it.id)
+                        .nombre(it.nombre)
         ).orElseThrow();
 
         return ResponseEntity.ok(dto);

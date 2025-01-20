@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 @RestController
 public class VehiculosController implements VehiculosApi {
 
     private final VehiculoService vehiculoService;
+
+    public VehiculosController(VehiculoService vehiculoService) {
+        this.vehiculoService = vehiculoService;
+    }
 
     @Override
     public ResponseEntity<Void> liberarRentaVehiculo(Integer id) {
@@ -39,9 +42,9 @@ public class VehiculosController implements VehiculosApi {
 
         var dtos = vehiculos.stream().map(it ->
                 new VehiculoDto()
-                        .id(it.getId())
-                        .marca(it.getMarca())
-                        .disponible(it.isDisponible())
+                        .id(it.id)
+                        .marca(it.marca)
+                        .disponible(it.disponible)
         ).toList();
 
         return ResponseEntity.ok(dtos);
@@ -52,9 +55,9 @@ public class VehiculosController implements VehiculosApi {
         var vehiculo = vehiculoService.obtenerVehiculoPorId(id);
         var dto = vehiculo.map(it ->
                 new VehiculoDto()
-                        .id(it.getId())
-                        .marca(it.getMarca())
-                        .disponible(it.isDisponible())
+                        .id(it.id)
+                        .marca(it.marca)
+                        .disponible(it.disponible)
                 ).orElseThrow();
 
         return ResponseEntity.ok(dto);

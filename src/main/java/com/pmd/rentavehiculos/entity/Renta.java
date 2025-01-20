@@ -9,10 +9,7 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Getter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "RENTAS")
 public class Renta {
@@ -29,4 +26,18 @@ public class Renta {
     private LocalDateTime fechaRenta;
     private LocalDateTime fechaEstimadaEntrega;
     private LocalDateTime fechaEntregado;
+
+    public Renta() {
+    }
+
+    public Renta(Integer id, Persona persona, Vehiculo vehiculo, Integer diasRenta, BigDecimal valorTotalRenta, LocalDateTime fechaRenta, LocalDateTime fechaEstimadaEntrega, LocalDateTime fechaEntregado) {
+        this.id = id;
+        this.persona = persona;
+        this.vehiculo = vehiculo;
+        this.diasRenta = diasRenta;
+        this.valorTotalRenta = valorTotalRenta;
+        this.fechaRenta = fechaRenta;
+        this.fechaEstimadaEntrega = fechaEstimadaEntrega;
+        this.fechaEntregado = fechaEntregado;
+    }
 }

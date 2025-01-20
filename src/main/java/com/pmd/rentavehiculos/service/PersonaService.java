@@ -8,11 +8,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@RequiredArgsConstructor
 @Service
 public class PersonaService {
 
     private final PersonaRepository personaRepository;
+
+    public PersonaService(PersonaRepository personaRepository) {
+        this.personaRepository = personaRepository;
+    }
 
     public List<Persona> obtenerPersona() {
         return personaRepository.findAll();
