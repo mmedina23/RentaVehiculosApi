@@ -38,7 +38,7 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            type: integer
       responses:
         '200':
           description: OK
@@ -81,7 +81,7 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            type: integer
       responses:
         '200':
           description: OK
@@ -99,7 +99,7 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            type: integer
       requestBody:
         description: Información de la renta
         content:
@@ -119,7 +119,7 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            type: integer
       responses:
         '200':
           description: OK
@@ -134,7 +134,7 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            type: integer
       responses:
         '200':
           description: OK
@@ -177,7 +177,7 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: integer
           readOnly: true
         nombre_usuario:
           type: string
@@ -195,7 +195,7 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: integer
           readOnly: true
         nombre:
           type: string
@@ -217,7 +217,7 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: integer
           readOnly: true
         marca:
           type: string
@@ -250,7 +250,7 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: integer
           readOnly: true
         persona:
           $ref: '#/components/schemas/Persona'
