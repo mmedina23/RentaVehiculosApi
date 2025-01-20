@@ -1,0 +1,276 @@
+openapi: '3.0.3'
+info:
+  title: Renta de vehículos
+  version: '0.1.0'
+servers:
+  - url: https://api.server.test/v1
+tags:
+  - name: autenticacion
+    description: Operaciones de seguridad
+  - name: personas
+    description: Operaciones para el manejo de personas
+  - name: vehiculos
+    description: Operaciones para el manejo de vehiculos
+paths:
+  /personas:
+    get:
+      summary: Recupera la lista de todas las personas registradas
+      operationId: obtenerPersona
+      tags:
+        - personas
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Persona'
+  /personas/{id}:
+    get:
+      summary: Recupera una persona por su identificador
+      operationId: obtenerPersonaPorId
+      tags:
+        - personas
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Persona'
+  /vehiculos:
+    get:
+      summary: Recupera la lista de vehiculos
+      operationId: obtenerVehiculo
+      tags:
+        - vehiculos
+      parameters:
+        - name: estado
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - disponibles
+              - rentados
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vehiculo'
+  /vehiculos/{id}:
+    get:
+      summary: Recupera un vehiculo por su identificador
+      operationId: obtenerVehiculoPorId
+      tags:
+        - vehiculos
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehiculo'
+    put:
+      summary: Reserva el vehiculo, debe estar disponible
+      operationId: reservarVehiculo
+      tags:
+        - vehiculos
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Información de la renta
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Renta'
+      responses:
+        '200':
+          description: OK
+    patch:
+      summary: Libera un vehiculo rentado, debe ser propio o administrador
+      operationId: liberarRentaVehiculo
+      tags:
+        - vehiculos
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /vehiculos/{id}/rentas:
+    get:
+      summary: Recupera el historial de renta de un vehiculo, solo disponible para administradores
+      operationId: obtenerRentasVehiculoPorId
+      tags:
+        - vehiculos
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Renta'
+  /auth/login:
+    post:
+      summary: Registra al usuario en el sistema
+      operationId: login
+      tags:
+        - autenticacion
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+  /auth/logout:
+    delete:
+      summary: Cierra la sesión de usuario actual
+      operationId: logout
+      tags:
+        - autenticacion
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    Usuario:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        nombre_usuario:
+          type: string
+        contrasena:
+          type: string
+          format: password
+          writeOnly: true
+        perfil:
+          type: string
+          readOnly: true
+          enum: 
+            - 'ADMIN'
+            - 'CLIENT'
+    Persona:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        nombre:
+          type: string
+        apellidos:
+          type: string
+        direccion:
+          type: string
+        telefono:
+          type: string
+        tipo_identificacion:
+          type: string
+          enum:
+            - DNI
+            - NIE
+            - PAS
+        identificacion:
+          type: string
+    Vehiculo:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        marca:
+          type: string
+        color:
+          type: string
+        carroceria:
+          type: string
+          enum: 
+            - 'TURISMO'
+            - 'SUV 4X4'
+            - 'FAMILIAR'
+            - 'DEPORTIVO'
+        plazas:
+          type: integer
+          minimum: 2
+          maximum: 9
+        cambios:
+          type: string
+          enum: 
+            - 'AUTOMATICO'
+            - 'MANUAL'
+        tipo_combustible:
+          type: string
+        valor_dia:
+          type: number
+          minimum: 0.00
+        disponible:
+          type: boolean
+    Renta:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        persona:
+          $ref: '#/components/schemas/Persona'
+        vehiculo:
+          $ref: '#/components/schemas/Vehiculo'
+        dias_renta:
+          type: integer
+          minimum: 1
+        valor_total_renta:
+          type: number
+        fecha_renta:
+          type: string
+          format: date-time
+        fecha_estimada_entrega:
+          type: string
+          format: date-time
+        fecha_entregado:
+          type: string
+          format: date-time
+          readOnly: true
+        
+        
+        
