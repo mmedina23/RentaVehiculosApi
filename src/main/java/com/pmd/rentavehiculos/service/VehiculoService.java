@@ -1,7 +1,7 @@
 package com.pmd.rentavehiculos.service;
 
-import com.pmd.rentavehiculos.model.RentaDto;
-import com.pmd.rentavehiculos.model.VehiculoDto;
+import com.pmd.rentavehiculos.entity.Renta;
+import com.pmd.rentavehiculos.entity.Vehiculo;
 import com.pmd.rentavehiculos.repository.RentaRepository;
 import com.pmd.rentavehiculos.repository.VehiculoRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,22 +18,26 @@ public class VehiculoService {
     private final RentaRepository rentaRepository;
 
     public void liberarRentaVehiculo(Integer id) {
-        return ;
+        return;
     }
 
-    public List<RentaDto> obtenerRentasVehiculoPorId(Integer id) {
+    public List<Renta> obtenerRentasVehiculoPorId(Integer id) {
         return null;
     }
 
-    public List<VehiculoDto> obtenerVehiculo(String estado) {
-        return null;
+    public List<Vehiculo> obtenerVehiculo() {
+        return vehiculoRepository.findAll();
     }
 
-    public Optional<VehiculoDto> obtenerVehiculoPorId(Integer id) {
-        return null;
+    public List<Vehiculo> obtenerVehiculoPorEstado(boolean disponible) {
+        return vehiculoRepository.findByDisponible(disponible);
     }
 
-    public void reservarVehiculo(Integer id, RentaDto rentaDto) {
-        return ;
+    public Optional<Vehiculo> obtenerVehiculoPorId(Integer id) {
+        return vehiculoRepository.findById(id);
+    }
+
+    public void reservarVehiculo(Integer id, Renta renta) {
+        return;
     }
 }

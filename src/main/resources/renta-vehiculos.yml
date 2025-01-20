@@ -188,7 +188,7 @@ components:
         perfil:
           type: string
           readOnly: true
-          enum: 
+          enum:
             - 'ADMIN'
             - 'CLIENT'
     Persona:
@@ -225,7 +225,7 @@ components:
           type: string
         carroceria:
           type: string
-          enum: 
+          enum:
             - 'TURISMO'
             - 'SUV 4X4'
             - 'FAMILIAR'
@@ -236,7 +236,7 @@ components:
           maximum: 9
         cambios:
           type: string
-          enum: 
+          enum:
             - 'AUTOMATICO'
             - 'MANUAL'
         tipo_combustible:

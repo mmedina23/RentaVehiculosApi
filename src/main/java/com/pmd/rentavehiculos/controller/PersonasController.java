@@ -17,11 +17,25 @@ public class PersonasController implements PersonasApi {
 
     @Override
     public ResponseEntity<List<PersonaDto>> obtenerPersona() {
-        return null;
+        var personas = personaService.obtenerPersona();
+        var dtos = personas.stream().map(it ->
+            new PersonaDto()
+                    .id(it.getId())
+                    .nombre(it.getNombre())
+        ).toList();
+
+        return ResponseEntity.ok(dtos);
     }
 
     @Override
     public ResponseEntity<PersonaDto> obtenerPersonaPorId(Integer id) {
-        return null;
+        var persona = personaService.obtenerPersonaPorId(id);
+        var dto = persona.map(it ->
+                new PersonaDto()
+                        .id(it.getId())
+                        .nombre(it.getNombre())
+        ).orElseThrow();
+
+        return ResponseEntity.ok(dto);
     }
 }

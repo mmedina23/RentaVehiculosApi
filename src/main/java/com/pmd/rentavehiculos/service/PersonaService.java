@@ -1,6 +1,6 @@
 package com.pmd.rentavehiculos.service;
 
-import com.pmd.rentavehiculos.model.PersonaDto;
+import com.pmd.rentavehiculos.entity.Persona;
 import com.pmd.rentavehiculos.repository.PersonaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,11 +14,11 @@ public class PersonaService {
 
     private final PersonaRepository personaRepository;
 
-    public List<PersonaDto> obtenerPersona() {
-        return null;
+    public List<Persona> obtenerPersona() {
+        return personaRepository.findAll();
     }
 
-    public Optional<PersonaDto> obtenerPersonaPorId(Integer id) {
-        return null;
+    public Optional<Persona> obtenerPersonaPorId(Integer id) {
+        return personaRepository.findById(id);
     }
 }
