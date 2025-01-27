@@ -19,4 +19,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Modifying
     @Query(value = "UPDATE usuarios SET llave = :llave, fecha_exp_llave = :fechaExpLlave WHERE id = :idUsusario", nativeQuery = true)
     void actualizarLLave(@Param("idUsusario") Integer idUsusario, @Param("llave") String llave, @Param("fechaExpLlave") LocalDateTime fechaExpLlave);
+
+    @Query(value = "SELECT * FROM usuarios WHERE llave = :llave", nativeQuery = true)
+    Optional<Usuario> consultaPorLlave(@Param("llave") String llave);
 }

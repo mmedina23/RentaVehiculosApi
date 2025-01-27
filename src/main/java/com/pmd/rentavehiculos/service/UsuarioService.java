@@ -20,13 +20,13 @@ public class UsuarioService {
 
     @Transactional
     public Usuario login(String usuario, String contrasena){
-        Optional<Usuario> usuarioEntity  = usuarioRepository.login(usuario,contrasena);
+        Optional<Usuario> usuarioEntity  = this.usuarioRepository.login(usuario,contrasena);
 
         return usuarioEntity.map(it -> {
             it.setLlave(Util.generarLlaveUsuario());
             it.setFechaExpLlave(LocalDateTime.now());
 
-            usuarioRepository.actualizarLLave(
+            this.usuarioRepository.actualizarLLave(
                     it.getId(),
                     it.getLlave(),
                     it.getFechaExpLlave());
@@ -37,7 +37,7 @@ public class UsuarioService {
     }
 
     public void logout(Integer idUsuario, String llave) {
-        usuarioRepository.findById(idUsuario)
+        this.usuarioRepository.findById(idUsuario)
                 .filter(it ->
                     llave.equals(it.getLlave())
                             && null != it.getFechaExpLlave()
@@ -45,7 +45,13 @@ public class UsuarioService {
                 ).ifPresent(it -> {
                     it.setLlave(null);
                     it.setFechaExpLlave(null);
-                    usuarioRepository.save(it);
+                    this.usuarioRepository.save(it);
                 });
+    }
+
+    public boolean verificacionLlave(String llave){
+        return this.usuarioRepository.consultaPorLlave(llave).map(it ->
+                LocalDateTime.now().isAfter(it.getFechaExpLlave())
+                ).orElseGet(() -> false);
     }
 }

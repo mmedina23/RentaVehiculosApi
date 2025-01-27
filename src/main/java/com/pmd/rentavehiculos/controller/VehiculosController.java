@@ -1,6 +1,7 @@
 package com.pmd.rentavehiculos.controller;
 
 import com.pmd.rentavehiculos.entity.Vehiculo;
+import com.pmd.rentavehiculos.mapper.Mapper;
 import com.pmd.rentavehiculos.model.RentaDto;
 import com.pmd.rentavehiculos.model.VehiculoDto;
 import com.pmd.rentavehiculos.service.VehiculoService;
@@ -21,7 +22,8 @@ public class VehiculosController implements VehiculosApi {
 
     @Override
     public ResponseEntity<Void> liberarRentaVehiculo(Integer id) {
-        return null;
+        this.vehiculoService.liberarRentaVehiculo(id);
+        return ResponseEntity.ok().build();
     }
 
     @Override
@@ -33,17 +35,13 @@ public class VehiculosController implements VehiculosApi {
     public ResponseEntity<List<VehiculoDto>> obtenerVehiculo(String estado) {
         List<Vehiculo> vehiculos;
         if (null == estado) {
-            vehiculos = vehiculoService.obtenerVehiculo();
+            vehiculos = this.vehiculoService.obtenerVehiculo();
         } else {
             boolean disponible = "disponibles".equals(estado);
-            vehiculos = vehiculoService.obtenerVehiculoPorEstado(disponible);
+            vehiculos = this.vehiculoService.obtenerVehiculoPorEstado(disponible);
         }
 
-        var dtos = vehiculos.stream().map(it ->
-                new VehiculoDto()
-                        .id(it.getId())
-                        .marca(it.getMarca())
-                        .disponible(it.isDisponible())
+        var dtos = vehiculos.stream().map(Mapper::vehiculoEntityToHehiculoDto
         ).toList();
 
         return ResponseEntity.ok(dtos);
@@ -51,12 +49,8 @@ public class VehiculosController implements VehiculosApi {
 
     @Override
     public ResponseEntity<VehiculoDto> obtenerVehiculoPorId(Integer id) {
-        var vehiculo = vehiculoService.obtenerVehiculoPorId(id);
-        var dto = vehiculo.map(it ->
-                new VehiculoDto()
-                        .id(it.getId())
-                        .marca(it.getMarca())
-                        .disponible(it.isDisponible())
+        var vehiculo = this.vehiculoService.obtenerVehiculoPorId(id);
+        var dto = vehiculo.map(Mapper::vehiculoEntityToHehiculoDto
                 ).orElseThrow();
 
         return ResponseEntity.ok(dto);
@@ -64,6 +58,7 @@ public class VehiculosController implements VehiculosApi {
 
     @Override
     public ResponseEntity<Void> reservarVehiculo(Integer id, RentaDto rentaDto) {
-        return null;
+        this.vehiculoService.reservarVehiculo(id, Mapper.rentaDtoToRentaEntity(rentaDto));
+        return ResponseEntity.ok().build();
     }
 }

@@ -21,7 +21,13 @@ public class VehiculoService {
     }
 
     public void liberarRentaVehiculo(Integer id) {
-        return;
+        Optional<Vehiculo> vehiculo = obtenerVehiculoPorId(id);
+        vehiculo.ifPresent(it -> {
+                    it.setDisponible(true);
+                    this.vehiculoRepository.save(it);
+                }
+        );
+        //falta excepcion
     }
 
     public List<Renta> obtenerRentasVehiculoPorId(Integer id) {
@@ -41,6 +47,13 @@ public class VehiculoService {
     }
 
     public void reservarVehiculo(Integer id, Renta renta) {
-        return;
+        Optional<Vehiculo> vehiculo = obtenerVehiculoPorId(id);
+        vehiculo.ifPresent(it -> {
+                    it.setDisponible(false);
+                    this.rentaRepository.save(renta);
+                    this.vehiculoRepository.save(it);
+                }
+        );
+        //Falta excepcion
     }
 }

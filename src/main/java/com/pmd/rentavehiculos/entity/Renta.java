@@ -36,5 +36,67 @@ public class Renta {
         this.fechaEntregado = fechaEntregado;
     }
 
+    public Integer getId() {
+        return id;
+    }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
+    }
+
+    public Vehiculo getVehiculo() {
+        return vehiculo;
+    }
+
+    public void setVehiculo(Vehiculo vehiculo) {
+        this.vehiculo = vehiculo;
+    }
+
+    public Integer getDiasRenta() {
+        return diasRenta;
+    }
+
+    public void setDiasRenta(Integer diasRenta) {
+        this.diasRenta = diasRenta;
+    }
+
+    public BigDecimal getValorTotalRenta() {
+        return valorTotalRenta;
+    }
+
+    public void setValorTotalRenta(BigDecimal valorTotalRenta) {
+        this.valorTotalRenta = valorTotalRenta;
+    }
+
+    public LocalDateTime getFechaRenta() {
+        return fechaRenta;
+    }
+
+    public void setFechaRenta(LocalDateTime fechaRenta) {
+        this.fechaRenta = fechaRenta;
+    }
+
+    public LocalDateTime getFechaEstimadaEntrega() {
+        return fechaEstimadaEntrega;
+    }
+
+    public void setFechaEstimadaEntrega(LocalDateTime fechaEstimadaEntrega) {
+        this.fechaEstimadaEntrega = fechaEstimadaEntrega;
+    }
+
+    public LocalDateTime getFechaEntregado() {
+        return fechaEntregado;
+    }
+
+    public void setFechaEntregado(LocalDateTime fechaEntregado) {
+        this.fechaEntregado = fechaEntregado;
+    }
 }
