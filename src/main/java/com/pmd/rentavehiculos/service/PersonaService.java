@@ -2,7 +2,6 @@ package com.pmd.rentavehiculos.service;
 
 import com.pmd.rentavehiculos.entity.Persona;
 import com.pmd.rentavehiculos.repository.PersonaRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

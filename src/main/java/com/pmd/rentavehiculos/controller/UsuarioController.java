@@ -5,7 +5,6 @@ import com.pmd.rentavehiculos.entity.Usuario;
 import com.pmd.rentavehiculos.mapper.Mapper;
 import com.pmd.rentavehiculos.model.AutenticacionDto;
 import com.pmd.rentavehiculos.model.LoginRequestDto;
-import com.pmd.rentavehiculos.model.UsuarioDto;
 import com.pmd.rentavehiculos.service.PersonaService;
 import com.pmd.rentavehiculos.service.UsuarioService;
 import com.pmd.rentavehiculos.web.AutenticacionApi;
@@ -25,8 +24,8 @@ public class UsuarioController implements AutenticacionApi {
 
     @Override
     public ResponseEntity<AutenticacionDto> login(LoginRequestDto loginRequestDto) {
-        Usuario usuario = this.usuarioService.login(loginRequestDto.getNombreUsuario(), loginRequestDto.getContrasena());
-        Persona persona = this.personaService.obtenerPersonaPorIdUsuario(usuario.getId());
+        Usuario usuario = usuarioService.login(loginRequestDto.getNombreUsuario(), loginRequestDto.getContrasena());
+        Persona persona = personaService.obtenerPersonaPorIdUsuario(usuario.getId());
 
         AutenticacionDto autenticacionDto = Mapper.mapperAutenticacionDto(persona, usuario);
 
@@ -35,6 +34,7 @@ public class UsuarioController implements AutenticacionApi {
 
     @Override
     public ResponseEntity<Void> logout() {
-        return null;
+        usuarioService.logout(null, null);
+        return ResponseEntity.ok().build();
     }
 }

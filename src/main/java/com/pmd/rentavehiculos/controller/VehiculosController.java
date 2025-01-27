@@ -5,7 +5,6 @@ import com.pmd.rentavehiculos.model.RentaDto;
 import com.pmd.rentavehiculos.model.VehiculoDto;
 import com.pmd.rentavehiculos.service.VehiculoService;
 import com.pmd.rentavehiculos.web.VehiculosApi;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,9 +41,9 @@ public class VehiculosController implements VehiculosApi {
 
         var dtos = vehiculos.stream().map(it ->
                 new VehiculoDto()
-                        .id(it.id)
-                        .marca(it.marca)
-                        .disponible(it.disponible)
+                        .id(it.getId())
+                        .marca(it.getMarca())
+                        .disponible(it.isDisponible())
         ).toList();
 
         return ResponseEntity.ok(dtos);
@@ -55,9 +54,9 @@ public class VehiculosController implements VehiculosApi {
         var vehiculo = vehiculoService.obtenerVehiculoPorId(id);
         var dto = vehiculo.map(it ->
                 new VehiculoDto()
-                        .id(it.id)
-                        .marca(it.marca)
-                        .disponible(it.disponible)
+                        .id(it.getId())
+                        .marca(it.getMarca())
+                        .disponible(it.isDisponible())
                 ).orElseThrow();
 
         return ResponseEntity.ok(dto);

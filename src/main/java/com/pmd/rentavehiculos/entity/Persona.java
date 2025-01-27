@@ -1,12 +1,7 @@
 package com.pmd.rentavehiculos.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@Builder
 @Entity
 @Table(name = "PERSONAS")
 public class Persona {

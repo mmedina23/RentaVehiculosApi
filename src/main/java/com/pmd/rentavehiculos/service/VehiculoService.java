@@ -4,7 +4,6 @@ import com.pmd.rentavehiculos.entity.Renta;
 import com.pmd.rentavehiculos.entity.Vehiculo;
 import com.pmd.rentavehiculos.repository.RentaRepository;
 import com.pmd.rentavehiculos.repository.VehiculoRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

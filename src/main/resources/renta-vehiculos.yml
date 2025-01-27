@@ -154,13 +154,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                nombre_usuario:
-                  type: string
-                contrasena:
-                  type: string
-                  format: password
+              $ref: '#/components/schemas/LoginRequest'
       responses:
         '200':
           description: OK
@@ -169,7 +163,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Autenticacion'
   /auth/logout:
-    delete:
+    post:
       summary: Cierra la sesión de usuario actual
       operationId: logout
       tags:
@@ -187,10 +181,6 @@ components:
           readOnly: true
         nombre_usuario:
           type: string
-        contrasena:
-          type: string
-          format: password
-          writeOnly: true
         perfil:
           type: string
           readOnly: true
@@ -199,9 +189,19 @@ components:
             - 'CLIENT'
         llave:
           type: string
+          readOnly: true
         fecha_exp_llave:
           type: string
           format: date-time
+          readOnly: true
+    LoginRequest:
+      type: object
+      properties:
+        nombre_usuario:
+          type: string
+        contrasena:
+          type: string
+          format: password
     Persona:
       type: object
       properties:

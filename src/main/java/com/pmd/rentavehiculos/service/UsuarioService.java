@@ -22,14 +22,30 @@ public class UsuarioService {
     public Usuario login(String usuario, String contrasena){
         Optional<Usuario> usuarioEntity  = usuarioRepository.login(usuario,contrasena);
 
-        usuarioEntity.ifPresent(it ->
-                usuarioRepository.actualizarLLave(
-                        it.getId(),
-                        Util.generarLlaveUsuario(),
-                        LocalDateTime.now())
-        );
+        return usuarioEntity.map(it -> {
+            it.setLlave(Util.generarLlaveUsuario());
+            it.setFechaExpLlave(LocalDateTime.now());
 
-        return usuarioEntity.orElseThrow(() -> new RuntimeException("Usuario o Contrasena Erroneo"));
+            usuarioRepository.actualizarLLave(
+                    it.getId(),
+                    it.getLlave(),
+                    it.getFechaExpLlave());
+
+            return it;
+        }).orElseThrow(() -> new RuntimeException("Usuario o Contrasena Erroneo"));
+
     }
 
+    public void logout(Integer idUsuario, String llave) {
+        usuarioRepository.findById(idUsuario)
+                .filter(it ->
+                    llave.equals(it.getLlave())
+                            && null != it.getFechaExpLlave()
+                            && LocalDateTime.now().isAfter(it.getFechaExpLlave())
+                ).ifPresent(it -> {
+                    it.setLlave(null);
+                    it.setFechaExpLlave(null);
+                    usuarioRepository.save(it);
+                });
+    }
 }
