@@ -1,9 +1,9 @@
 package com.pmd.rentavehiculos.controller;
 
+import com.pmd.rentavehiculos.mapper.Mapper;
 import com.pmd.rentavehiculos.model.PersonaDto;
 import com.pmd.rentavehiculos.service.PersonaService;
 import com.pmd.rentavehiculos.web.PersonasApi;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,10 +21,7 @@ public class PersonasController implements PersonasApi {
     @Override
     public ResponseEntity<List<PersonaDto>> obtenerPersona() {
         var personas = personaService.obtenerPersona();
-        var dtos = personas.stream().map(it ->
-            new PersonaDto()
-                    .id(it.id)
-                    .nombre(it.nombre)
+        var dtos = personas.stream().map(Mapper::personaEntityToPersonaDto
         ).toList();
 
         return ResponseEntity.ok(dtos);
@@ -33,10 +30,7 @@ public class PersonasController implements PersonasApi {
     @Override
     public ResponseEntity<PersonaDto> obtenerPersonaPorId(Integer id) {
         var persona = personaService.obtenerPersonaPorId(id);
-        var dto = persona.map(it ->
-                new PersonaDto()
-                        .id(it.id)
-                        .nombre(it.nombre)
+        var dto = persona.map(Mapper::personaEntityToPersonaDto
         ).orElseThrow();
 
         return ResponseEntity.ok(dto);

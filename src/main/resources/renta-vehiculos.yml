@@ -3,7 +3,7 @@ info:
   title: Renta de vehículos
   version: '0.1.0'
 servers:
-  - url: https://api.server.test/v1
+  - url: https://api.server.test/
 tags:
   - name: autenticacion
     description: Operaciones de seguridad
@@ -154,14 +154,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Usuario'
+              type: object
+              properties:
+                nombre_usuario:
+                  type: string
+                contrasena:
+                  type: string
+                  format: password
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Usuario'
+                $ref: '#/components/schemas/Autenticacion'
   /auth/logout:
     delete:
       summary: Cierra la sesión de usuario actual
@@ -191,6 +197,11 @@ components:
           enum:
             - 'ADMIN'
             - 'CLIENT'
+        llave:
+          type: string
+        fecha_exp_llave:
+          type: string
+          format: date-time
     Persona:
       type: object
       properties:
@@ -271,6 +282,13 @@ components:
           type: string
           format: date-time
           readOnly: true
-        
-        
-        
+    Autenticacion:
+      type: object
+      properties:
+        persona:
+          $ref: '#/components/schemas/Persona'
+        llave:
+          type: string
+        fecha_exp_llave:
+          type: string
+          format: date-time

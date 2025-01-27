@@ -24,4 +24,8 @@ public class PersonaService {
     public Optional<Persona> obtenerPersonaPorId(Integer id) {
         return personaRepository.findById(id);
     }
+
+    public Persona obtenerPersonaPorIdUsuario(Integer idUsuaario){
+        return personaRepository.buscarPorIdUsuario(idUsuaario);
+    }
 }
