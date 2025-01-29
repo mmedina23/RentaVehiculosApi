@@ -1,5 +1,6 @@
 package com.pmd.rentavehiculos.controller;
 
+import com.pmd.rentavehiculos.entity.Renta;
 import com.pmd.rentavehiculos.entity.Vehiculo;
 import com.pmd.rentavehiculos.mapper.Mapper;
 import com.pmd.rentavehiculos.model.RentaDto;
@@ -28,7 +29,10 @@ public class VehiculosController implements VehiculosApi {
 
     @Override
     public ResponseEntity<List<RentaDto>> obtenerRentasVehiculoPorId(Integer id) {
-        return null;
+        List<Renta> rentas = this.vehiculoService.obtenerRentasVehiculoPorId(id);
+        var dtos = rentas.stream().map(Mapper::rentaEntityToRentaDto).toList();
+
+        return ResponseEntity.ok(dtos);
     }
 
     @Override

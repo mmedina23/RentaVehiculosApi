@@ -61,13 +61,10 @@ public class Mapper {
     public static Renta rentaDtoToRentaEntity(RentaDto rentaDto){
         Renta renta =  new Renta();
         Persona persona = new Persona();
-        Vehiculo vehiculo = new Vehiculo();
 
         persona.setId(rentaDto.getPersona().getId());
-        vehiculo.setId(rentaDto.getVehiculo().getId());
 
         renta.setPersona(persona);
-        renta.setVehiculo(vehiculo);
         renta.setDiasRenta(rentaDto.getDiasRenta());
         renta.setValorTotalRenta(rentaDto.getValorTotalRenta());
         renta.setFechaRenta(LocalDateTime.now());
@@ -75,6 +72,18 @@ public class Mapper {
         renta.setFechaEntregado(renta.getFechaEntregado());
 
         return renta;
+    }
+
+    public static RentaDto rentaEntityToRentaDto(Renta renta){
+        return new RentaDto()
+                .id(renta.getId())
+                .persona(personaEntityToPersonaDto(renta.getPersona()))
+                .vehiculo(vehiculoEntityToHehiculoDto(renta.getVehiculo()))
+                .diasRenta(renta.getDiasRenta())
+                .valorTotalRenta(renta.getValorTotalRenta())
+                .fechaRenta(renta.getFechaRenta())
+                .fechaEstimadaEntrega(renta.getFechaEstimadaEntrega())
+                .fechaEntregado(renta.getFechaEntregado());
     }
 
 }

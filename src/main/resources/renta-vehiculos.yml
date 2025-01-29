@@ -267,6 +267,7 @@ components:
           $ref: '#/components/schemas/Persona'
         vehiculo:
           $ref: '#/components/schemas/Vehiculo'
+          readOnly: true
         dias_renta:
           type: integer
           minimum: 1
