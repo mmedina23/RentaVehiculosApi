@@ -22,13 +22,13 @@ public class VehiculosController implements VehiculosApi {
     }
 
     @Override
-    public ResponseEntity<Void> liberarRentaVehiculo(Integer id) {
+    public ResponseEntity<Void> liberarRentaVehiculo(Integer id, String xLlaveApi) {
         this.vehiculoService.liberarRentaVehiculo(id);
         return ResponseEntity.ok().build();
     }
 
     @Override
-    public ResponseEntity<List<RentaDto>> obtenerRentasVehiculoPorId(Integer id) {
+    public ResponseEntity<List<RentaDto>> obtenerRentasVehiculoPorId(Integer id, String xLlaveApi) {
         List<Renta> rentas = this.vehiculoService.obtenerRentasVehiculoPorId(id);
         var dtos = rentas.stream().map(Mapper::rentaEntityToRentaDto).toList();
 
@@ -52,7 +52,7 @@ public class VehiculosController implements VehiculosApi {
     }
 
     @Override
-    public ResponseEntity<VehiculoDto> obtenerVehiculoPorId(Integer id) {
+    public ResponseEntity<VehiculoDto> obtenerVehiculoPorId(Integer id, String xLlaveApi) {
         var vehiculo = this.vehiculoService.obtenerVehiculoPorId(id);
         var dto = vehiculo.map(Mapper::vehiculoEntityToHehiculoDto
         ).orElseThrow();
@@ -61,7 +61,7 @@ public class VehiculosController implements VehiculosApi {
     }
 
     @Override
-    public ResponseEntity<Void> reservarVehiculo(Integer id, RentaDto rentaDto) {
+    public ResponseEntity<Void> reservarVehiculo(Integer id, String xLlaveApi, RentaDto rentaDto) {
         this.vehiculoService.reservarVehiculo(id, Mapper.rentaDtoToRentaEntity(rentaDto));
         return ResponseEntity.ok().build();
     }

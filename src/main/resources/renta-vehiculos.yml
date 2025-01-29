@@ -87,6 +87,11 @@ paths:
           required: true
           schema:
             type: integer
+        - name: x-llave-api
+          in: header
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: OK
@@ -105,6 +110,11 @@ paths:
           required: true
           schema:
             type: integer
+        - name: x-llave-api
+          in: header
+          required: true
+          schema:
+            type: string
       requestBody:
         description: Información de la renta
         content:
@@ -125,6 +135,11 @@ paths:
           required: true
           schema:
             type: integer
+        - name: x-llave-api
+          in: header
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: OK
@@ -140,6 +155,11 @@ paths:
           required: true
           schema:
             type: integer
+        - name: x-llave-api
+          in: header
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: OK
