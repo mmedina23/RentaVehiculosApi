@@ -24,7 +24,8 @@ public class UsuarioService {
 
         return usuarioEntity.map(it -> {
             it.setLlave(Util.generarLlaveUsuario());
-            it.setFechaExpLlave(LocalDateTime.now());
+            it.setFechaExpLlave(LocalDateTime.now().plusDays(1
+            ));
 
             this.usuarioRepository.actualizarLLave(
                     it.getId(),
@@ -51,7 +52,7 @@ public class UsuarioService {
 
     public boolean verificacionLlave(String llave){
         return this.usuarioRepository.consultaPorLlave(llave).map(it ->
-                LocalDateTime.now().isAfter(it.getFechaExpLlave())
+                LocalDateTime.now().isBefore(it.getFechaExpLlave())
                 ).orElse(false);
     }
 }
