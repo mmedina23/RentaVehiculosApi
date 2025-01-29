@@ -36,7 +36,7 @@ public class VehiculosController implements VehiculosApi {
     }
 
     @Override
-    public ResponseEntity<List<VehiculoDto>> obtenerVehiculo(String estado) {
+    public ResponseEntity<List<VehiculoDto>> obtenerVehiculo(String xLlaveApi, String estado) {
         List<Vehiculo> vehiculos;
         if (null == estado) {
             vehiculos = this.vehiculoService.obtenerVehiculo();
@@ -55,7 +55,7 @@ public class VehiculosController implements VehiculosApi {
     public ResponseEntity<VehiculoDto> obtenerVehiculoPorId(Integer id) {
         var vehiculo = this.vehiculoService.obtenerVehiculoPorId(id);
         var dto = vehiculo.map(Mapper::vehiculoEntityToHehiculoDto
-                ).orElseThrow();
+        ).orElseThrow();
 
         return ResponseEntity.ok(dto);
     }

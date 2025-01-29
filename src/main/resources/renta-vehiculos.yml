@@ -61,6 +61,11 @@ paths:
             enum:
               - disponibles
               - rentados
+        - name: x-llave-api
+          in: header
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: OK
@@ -168,6 +173,16 @@ paths:
       operationId: logout
       tags:
         - autenticacion
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_usuario:
+                  type: integer
+                llave_api:
+                  type: string
       responses:
         '200':
           description: OK

@@ -52,6 +52,6 @@ public class UsuarioService {
     public boolean verificacionLlave(String llave){
         return this.usuarioRepository.consultaPorLlave(llave).map(it ->
                 LocalDateTime.now().isAfter(it.getFechaExpLlave())
-                ).orElseGet(() -> false);
+                ).orElse(false);
     }
 }

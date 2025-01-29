@@ -5,6 +5,7 @@ import com.pmd.rentavehiculos.entity.Usuario;
 import com.pmd.rentavehiculos.mapper.Mapper;
 import com.pmd.rentavehiculos.model.AutenticacionDto;
 import com.pmd.rentavehiculos.model.LoginRequestDto;
+import com.pmd.rentavehiculos.model.LogoutRequestDto;
 import com.pmd.rentavehiculos.service.PersonaService;
 import com.pmd.rentavehiculos.service.UsuarioService;
 import com.pmd.rentavehiculos.web.AutenticacionApi;
@@ -33,8 +34,8 @@ public class UsuarioController implements AutenticacionApi {
     }
 
     @Override
-    public ResponseEntity<Void> logout() {
-        usuarioService.logout(null, null);
+    public ResponseEntity<Void> logout(LogoutRequestDto logoutRequestDto) {
+        usuarioService.logout(logoutRequestDto.getIdUsuario(), logoutRequestDto.getLlaveApi());
         return ResponseEntity.ok().build();
     }
 }
