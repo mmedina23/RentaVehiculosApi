@@ -334,6 +334,11 @@ components:
       properties:
         persona:
           $ref: '#/components/schemas/Persona'
+        perfil:
+          type: string
+          enum:
+            - 'ADMIN'
+            - 'CLIENTE'
         llave:
           type: string
         fecha_exp_llave:

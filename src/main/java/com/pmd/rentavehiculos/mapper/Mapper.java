@@ -27,6 +27,7 @@ public class Mapper {
     public static AutenticacionDto mapperAutenticacionDto(Persona persona, Usuario usuario){
         return new AutenticacionDto()
                 .persona(personaEntityToPersonaDto(persona))
+                .perfil(AutenticacionDto.PerfilEnum.valueOf(usuario.getPerfil()))
                 .llave(usuario.getLlave())
                 .fechaExpLlave(usuario.getFechaExpLlave());
     }
