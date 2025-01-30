@@ -18,6 +18,12 @@ paths:
       operationId: obtenerPersona
       tags:
         - personas
+      parameters:
+        - name: x-llave-api
+          in: header
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: OK
@@ -39,6 +45,11 @@ paths:
           required: true
           schema:
             type: integer
+        - name: x-llave-api
+          in: header
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: OK
@@ -221,7 +232,7 @@ components:
           readOnly: true
           enum:
             - 'ADMIN'
-            - 'CLIENT'
+            - 'CLIENTE'
         llave:
           type: string
           readOnly: true

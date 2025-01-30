@@ -19,8 +19,8 @@ public class PersonasController implements PersonasApi {
     }
 
     @Override
-    public ResponseEntity<List<PersonaDto>> obtenerPersona() {
-        var personas = personaService.obtenerPersona();
+    public ResponseEntity<List<PersonaDto>> obtenerPersona(String xLlaveApi) {
+        var personas = this.personaService.obtenerPersona();
         var dtos = personas.stream().map(Mapper::personaEntityToPersonaDto
         ).toList();
 
@@ -28,8 +28,8 @@ public class PersonasController implements PersonasApi {
     }
 
     @Override
-    public ResponseEntity<PersonaDto> obtenerPersonaPorId(Integer id) {
-        var persona = personaService.obtenerPersonaPorId(id);
+    public ResponseEntity<PersonaDto> obtenerPersonaPorId(Integer id, String xLlaveApi) {
+        var persona = this.personaService.obtenerPersonaPorId(id);
         var dto = persona.map(Mapper::personaEntityToPersonaDto
         ).orElseThrow();
 

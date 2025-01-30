@@ -63,6 +63,7 @@ public class VehiculosController implements VehiculosApi {
     @Override
     public ResponseEntity<Void> reservarVehiculo(Integer id, String xLlaveApi, RentaDto rentaDto) {
         this.vehiculoService.reservarVehiculo(id, Mapper.rentaDtoToRentaEntity(rentaDto));
+
         return ResponseEntity.ok().build();
     }
 }

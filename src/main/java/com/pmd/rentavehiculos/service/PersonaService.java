@@ -17,14 +17,14 @@ public class PersonaService {
     }
 
     public List<Persona> obtenerPersona() {
-        return personaRepository.findAll();
+        return this.personaRepository.findAll();
     }
 
     public Optional<Persona> obtenerPersonaPorId(Integer id) {
-        return personaRepository.findById(id);
+        return this.personaRepository.findById(id);
     }
 
     public Persona obtenerPersonaPorIdUsuario(Integer idUsuaario){
-        return personaRepository.buscarPorIdUsuario(idUsuaario);
+        return this.personaRepository.buscarPorIdUsuario(idUsuaario);
     }
 }

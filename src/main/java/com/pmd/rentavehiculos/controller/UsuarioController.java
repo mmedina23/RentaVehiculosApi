@@ -25,8 +25,8 @@ public class UsuarioController implements AutenticacionApi {
 
     @Override
     public ResponseEntity<AutenticacionDto> login(LoginRequestDto loginRequestDto) {
-        Usuario usuario = usuarioService.login(loginRequestDto.getNombreUsuario(), loginRequestDto.getContrasena());
-        Persona persona = personaService.obtenerPersonaPorIdUsuario(usuario.getId());
+        Usuario usuario = this.usuarioService.login(loginRequestDto.getNombreUsuario(), loginRequestDto.getContrasena());
+        Persona persona = this.personaService.obtenerPersonaPorIdUsuario(usuario.getId());
 
         AutenticacionDto autenticacionDto = Mapper.mapperAutenticacionDto(persona, usuario);
 
@@ -35,7 +35,7 @@ public class UsuarioController implements AutenticacionApi {
 
     @Override
     public ResponseEntity<Void> logout(LogoutRequestDto logoutRequestDto) {
-        usuarioService.logout(logoutRequestDto.getIdUsuario(), logoutRequestDto.getLlaveApi());
+        this.usuarioService.logout(logoutRequestDto.getIdUsuario(), logoutRequestDto.getLlaveApi());
         return ResponseEntity.ok().build();
     }
 }
