@@ -1,12 +1,16 @@
 package com.pmd.rentavehiculos.controller;
 
-import com.pmd.rentavehiculos.entity.Renta;
 import com.pmd.rentavehiculos.entity.Vehiculo;
+import com.pmd.rentavehiculos.exception.ReglaNegocioExcepcion;
 import com.pmd.rentavehiculos.mapper.Mapper;
 import com.pmd.rentavehiculos.model.RentaDto;
 import com.pmd.rentavehiculos.model.VehiculoDto;
+import com.pmd.rentavehiculos.service.RentaService;
+import com.pmd.rentavehiculos.service.UsuarioService;
 import com.pmd.rentavehiculos.service.VehiculoService;
 import com.pmd.rentavehiculos.web.VehiculosApi;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,38 +20,55 @@ import java.util.List;
 public class VehiculosController implements VehiculosApi {
 
     private final VehiculoService vehiculoService;
+    private final RentaService rentaService;
+    private final UsuarioService usuarioService;
 
-    public VehiculosController(VehiculoService vehiculoService) {
+    public VehiculosController(VehiculoService vehiculoService, RentaService rentaService, UsuarioService usuarioService) {
         this.vehiculoService = vehiculoService;
+        this.rentaService = rentaService;
+        this.usuarioService = usuarioService;
     }
 
     @Override
     public ResponseEntity<Void> actualizarVehiculo(Integer id, String xLlaveApi, VehiculoDto vehiculoDto) {
-        return null;
+        this.usuarioService.validaPerfilLlave("ADMIN", xLlaveApi);
+
+        this.vehiculoService.actualizarVehiculo(id, Mapper.vehiculoDtoVehiculoEntity(vehiculoDto));
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
     @Override
     public ResponseEntity<Void> crearVehiculo(String xLlaveApi, VehiculoDto vehiculoDto) {
-        return null;
+        this.usuarioService.validaPerfilLlave("ADMIN", xLlaveApi);
+
+        this.vehiculoService.crearVehiculo(Mapper.vehiculoDtoVehiculoEntity(vehiculoDto));
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @Override
     public ResponseEntity<Void> eliminarVehiculo(Integer id, String xLlaveApi) {
-        return null;
+        this.usuarioService.validaPerfilLlave("ADMIN", xLlaveApi);
+
+        this.vehiculoService.eliminarVehiculo(id);
+        return ResponseEntity.noContent().build();
     }
 
     @Override
     public ResponseEntity<Void> liberarRentaVehiculo(Integer id, String xLlaveApi) {
-        this.vehiculoService.liberarRentaVehiculo(id);
+        this.usuarioService.validaPerfilLlave("CLIENTE", xLlaveApi);
+
+        this.rentaService.liberarRentaVehiculo(id);
         return ResponseEntity.ok().build();
     }
 
     @Override
     public ResponseEntity<List<RentaDto>> obtenerRentasVehiculoPorId(Integer id, String xLlaveApi) {
-        List<Renta> rentas = this.vehiculoService.obtenerRentasVehiculoPorId(id);
-        var dtos = rentas.stream().map(Mapper::rentaEntityToRentaDto).toList();
+        this.usuarioService.validaPerfilLlave("ADMIN", xLlaveApi);
 
-        return ResponseEntity.ok(dtos);
+        List<RentaDto> rentas = this.rentaService.obtenerRentasPorIdVehiculo(id)
+                .stream().map(Mapper::rentaEntityToRentaDto).toList();
+
+        return ResponseEntity.ok(rentas);
     }
 
     @Override
@@ -60,8 +81,8 @@ public class VehiculosController implements VehiculosApi {
             vehiculos = this.vehiculoService.obtenerVehiculoPorEstado(disponible);
         }
 
-        var dtos = vehiculos.stream().map(Mapper::vehiculoEntityToHehiculoDto
-        ).toList();
+        var dtos = vehiculos.stream()
+                .map(Mapper::vehiculoEntityToHehiculoDto).toList();
 
         return ResponseEntity.ok(dtos);
     }
@@ -77,7 +98,11 @@ public class VehiculosController implements VehiculosApi {
 
     @Override
     public ResponseEntity<Void> reservarVehiculo(Integer id, String xLlaveApi, RentaDto rentaDto) {
-        this.vehiculoService.reservarVehiculo(id, Mapper.rentaDtoToRentaEntity(rentaDto));
+        this.usuarioService.validaPropietarioLlave(rentaDto.getPersona().getId(), xLlaveApi);
+        this.usuarioService.validaPerfilLlave("CLIENTE", xLlaveApi);
+
+        this.vehiculoService.reservarVehiculo(id);
+        this.rentaService.crearRentaVehiculo(Mapper.rentaDtoToRentaEntity(rentaDto, id));
 
         return ResponseEntity.ok().build();
     }

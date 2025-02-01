@@ -1,13 +1,13 @@
 package com.pmd.rentavehiculos.service;
 
 import com.pmd.rentavehiculos.entity.Usuario;
+import com.pmd.rentavehiculos.exception.ReglaNegocioExcepcion;
 import com.pmd.rentavehiculos.repository.UsuarioRepository;
 import com.pmd.rentavehiculos.util.Util;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Service
 public class UsuarioService {
@@ -19,40 +19,48 @@ public class UsuarioService {
     }
 
     @Transactional
-    public Usuario login(String usuario, String contrasena){
-        Optional<Usuario> usuarioEntity  = this.usuarioRepository.login(usuario,contrasena);
+    public Usuario login(String usuario, String contrasena) {
+        return this.usuarioRepository.login(usuario, contrasena)
+                .map(it -> {
+                    it.setLlave(Util.generarLlaveUsuario());
+                    it.setFechaExpLlave(LocalDateTime.now().plusDays(1));
 
-        return usuarioEntity.map(it -> {
-            it.setLlave(Util.generarLlaveUsuario());
-            it.setFechaExpLlave(LocalDateTime.now().plusDays(1
-            ));
+                    this.usuarioRepository.actualizarLLave(
+                            it.getId(),
+                            it.getLlave(),
+                            it.getFechaExpLlave());
 
-            this.usuarioRepository.actualizarLLave(
-                    it.getId(),
-                    it.getLlave(),
-                    it.getFechaExpLlave());
-
-            return it;
-        }).orElseThrow(() -> new RuntimeException("Usuario o Contrasena Erroneo"));
+                    return it;
+                }).orElseThrow(() -> ReglaNegocioExcepcion.errorAutenticacion);
 
     }
 
     public void logout(Integer idUsuario, String llave) {
-        this.usuarioRepository.findById(idUsuario)
-                .filter(it ->
-                    llave.equals(it.getLlave())
-                            && null != it.getFechaExpLlave()
-                            && LocalDateTime.now().isAfter(it.getFechaExpLlave())
-                ).ifPresent(it -> {
+        this.usuarioRepository.consultaPorLlave(llave)
+                .filter(it -> idUsuario.equals(it.getId()))
+                .ifPresent(it -> {
                     it.setLlave(null);
                     it.setFechaExpLlave(null);
                     this.usuarioRepository.save(it);
                 });
     }
 
-    public boolean verificacionLlave(String llave){
-        return this.usuarioRepository.consultaPorLlave(llave).map(it ->
-                LocalDateTime.now().isBefore(it.getFechaExpLlave())
-                ).orElse(false);
+    public boolean verificacionLlave(String llave) {
+        return this.usuarioRepository.consultaPorLlave(llave)
+                .map(it -> LocalDateTime.now().isBefore(it.getFechaExpLlave()))
+                .orElse(false);
     }
+
+    public void validaPropietarioLlave(Integer idPersona, String llave) {
+        usuarioRepository.consultaPorLlave(llave)
+                .filter(it -> idPersona.compareTo(it.getPersona().getId()) == 0)
+                .orElseThrow(() -> ReglaNegocioExcepcion.usuarioNoAutorizado);
+    }
+
+    public void validaPerfilLlave(String perfil, String llave) {
+        usuarioRepository.consultaPorLlave(llave)
+                .filter(it -> perfil.equalsIgnoreCase(it.getPerfil()))
+                .orElseThrow(() -> ReglaNegocioExcepcion.usuarioNoAutorizado);
+    }
+
 }

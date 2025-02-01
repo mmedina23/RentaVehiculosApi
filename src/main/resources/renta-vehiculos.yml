@@ -83,7 +83,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Vehiculo'
+                  $ref: '#/components/schemas/Renta'
   /vehiculos:
     get:
       summary: Recupera la lista de vehiculos

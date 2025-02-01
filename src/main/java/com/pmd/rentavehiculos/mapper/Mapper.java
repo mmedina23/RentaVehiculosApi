@@ -24,7 +24,7 @@ public class Mapper {
                 .identificacion(persona.getIdentificacion());
     }
 
-    public static AutenticacionDto mapperAutenticacionDto(Persona persona, Usuario usuario){
+    public static AutenticacionDto mapperAutenticacionDto(Persona persona, Usuario usuario) {
         return new AutenticacionDto()
                 .persona(personaEntityToPersonaDto(persona))
                 .perfil(AutenticacionDto.PerfilEnum.valueOf(usuario.getPerfil()))
@@ -32,8 +32,8 @@ public class Mapper {
                 .fechaExpLlave(usuario.getFechaExpLlave());
     }
 
-    public static VehiculoDto vehiculoEntityToHehiculoDto(Vehiculo vehiculo){
-       return new VehiculoDto()
+    public static VehiculoDto vehiculoEntityToHehiculoDto(Vehiculo vehiculo) {
+        return new VehiculoDto()
                 .id(vehiculo.getId())
                 .marca(vehiculo.getMarca())
                 .color(vehiculo.getColor())
@@ -45,8 +45,8 @@ public class Mapper {
                 .disponible(vehiculo.isDisponible());
     }
 
-    public static Vehiculo vehiculoDtoVehiculoEntity(VehiculoDto vehiculoDto){
-        Vehiculo vehiculo =  new Vehiculo();
+    public static Vehiculo vehiculoDtoVehiculoEntity(VehiculoDto vehiculoDto) {
+        Vehiculo vehiculo = new Vehiculo();
         vehiculo.setMarca(vehiculoDto.getMarca());
         vehiculo.setColor(vehiculoDto.getColor());
         vehiculo.setCarroceria(vehiculoDto.getCarroceria().getValue());
@@ -59,13 +59,17 @@ public class Mapper {
         return vehiculo;
     }
 
-    public static Renta rentaDtoToRentaEntity(RentaDto rentaDto){
-        Renta renta =  new Renta();
+    public static Renta rentaDtoToRentaEntity(RentaDto rentaDto, Integer idVehiculo) {
         Persona persona = new Persona();
-
         persona.setId(rentaDto.getPersona().getId());
 
+        Vehiculo vehiculo = new Vehiculo();
+        vehiculo.setId(idVehiculo);
+
+        Renta renta = new Renta();
         renta.setPersona(persona);
+        renta.setVehiculo(vehiculo);
+
         renta.setDiasRenta(rentaDto.getDiasRenta());
         renta.setValorTotalRenta(rentaDto.getValorTotalRenta());
         renta.setFechaRenta(LocalDateTime.now());
@@ -75,7 +79,7 @@ public class Mapper {
         return renta;
     }
 
-    public static RentaDto rentaEntityToRentaDto(Renta renta){
+    public static RentaDto rentaEntityToRentaDto(Renta renta) {
         return new RentaDto()
                 .id(renta.getId())
                 .persona(personaEntityToPersonaDto(renta.getPersona()))

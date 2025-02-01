@@ -15,12 +15,15 @@ public class Persona {
     private String telefono;
     private String tipoIdentificacion;
     private String identificacion;
-    private Integer idUsuario;
+    //private Integer idUsuario;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
 
     public Persona() {
     }
 
-    public Persona(Integer id, String nombre, String apellidos, String direccion, String telefono, String tipoIdentificacion, String identificacion, Integer idUsuario) {
+    public Persona(Integer id, String nombre, String apellidos, String direccion, String telefono, String tipoIdentificacion, String identificacion, Usuario usuario) {
         this.id = id;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -28,7 +31,8 @@ public class Persona {
         this.telefono = telefono;
         this.tipoIdentificacion = tipoIdentificacion;
         this.identificacion = identificacion;
-        this.idUsuario = idUsuario;
+        //this.idUsuario = idUsuario;
+        this.usuario = usuario;
     }
 
     public Integer getId() {
@@ -88,10 +92,18 @@ public class Persona {
     }
 
     public Integer getIdUsuario() {
-        return idUsuario;
+        return usuario.getId();
     }
 
     public void setIdUsuario(Integer idUsuario) {
-        this.idUsuario = idUsuario;
+        this.usuario.setId(idUsuario);
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

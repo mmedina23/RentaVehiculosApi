@@ -24,7 +24,8 @@ public class PersonaService {
         return this.personaRepository.findById(id);
     }
 
-    public Persona obtenerPersonaPorIdUsuario(Integer idUsuaario){
-        return this.personaRepository.buscarPorIdUsuario(idUsuaario);
+    public Persona obtenerPersonaPorIdUsuario(Integer idUsuario) {
+        return this.personaRepository.buscarPorIdUsuario(idUsuario);
     }
+
 }

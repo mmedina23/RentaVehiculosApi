@@ -1,12 +1,10 @@
 package com.pmd.rentavehiculos.service;
 
-import com.pmd.rentavehiculos.entity.Renta;
 import com.pmd.rentavehiculos.entity.Vehiculo;
-import com.pmd.rentavehiculos.repository.RentaRepository;
+import com.pmd.rentavehiculos.exception.ReglaNegocioExcepcion;
 import com.pmd.rentavehiculos.repository.VehiculoRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,35 +12,9 @@ import java.util.Optional;
 public class VehiculoService {
 
     private final VehiculoRepository vehiculoRepository;
-    private final RentaRepository rentaRepository;
 
-    public VehiculoService(VehiculoRepository vehiculoRepository, RentaRepository rentaRepository) {
+    public VehiculoService(VehiculoRepository vehiculoRepository) {
         this.vehiculoRepository = vehiculoRepository;
-        this.rentaRepository = rentaRepository;
-    }
-
-    public void liberarRentaVehiculo(Integer id) {
-        this.rentaRepository
-                .rentaPorIdVehiculo(id).stream()
-                .filter(it -> it.getFechaEntregado() == null)
-                .findFirst()
-                .ifPresent(renta -> {
-                    renta.setFechaEntregado(LocalDateTime.now());
-                    this.rentaRepository.save(renta);
-                } );
-
-        this.vehiculoRepository.findById(id)
-                .ifPresent(it -> {
-                    it.setDisponible(true);
-                    this.vehiculoRepository.save(it);
-
-                }
-        );
-        //falta excepcion
-    }
-
-    public List<Renta> obtenerRentasVehiculoPorId(Integer id) {
-        return this.rentaRepository.rentaPorIdVehiculo(id);
     }
 
     public List<Vehiculo> obtenerVehiculo() {
@@ -57,24 +29,28 @@ public class VehiculoService {
         return this.vehiculoRepository.findById(id);
     }
 
-    public void reservarVehiculo(Integer id, Renta renta) {
-        Optional<Vehiculo> vehiculo = obtenerVehiculoPorId(id);
-        if (vehiculo.get().isDisponible()){
-            vehiculo.ifPresent(it -> {
-                        it.setDisponible(false);
+    public void reservarVehiculo(Integer id) {
+        this.vehiculoRepository.findById(id)
+                .filter(Vehiculo::isDisponible)
+                .ifPresentOrElse(it -> {
+                    it.setDisponible(Boolean.FALSE);
+                    this.vehiculoRepository.save(it);
+                }, () -> ReglaNegocioExcepcion.vehiculoNoDisponible.apply(id));
+    }
 
-                        Vehiculo vehiculoEntity = new Vehiculo();
-                        vehiculoEntity.setId(id);
-                        renta.setVehiculo(vehiculoEntity);
+    public void eliminarVehiculo(Integer id) {
+        vehiculoRepository.deleteById(id);
+    }
 
-                        this.rentaRepository.save(renta);
-                        this.vehiculoRepository.save(it);
-                    }
-            );
-        }else {
-            throw new RuntimeException("El vehiculo no esta disponible");
-        }
+    public Vehiculo crearVehiculo(Vehiculo vehiculo) {
+        return vehiculoRepository.save(vehiculo);
+    }
 
-        //Falta excepcion
+    public void actualizarVehiculo(Integer id, Vehiculo vehiculo) {
+        vehiculoRepository.findById(id)
+                .ifPresentOrElse(vhAlmacenado -> {
+                    var vhMerge = vhAlmacenado.merge(vehiculo);
+                    vehiculoRepository.save(vhMerge);
+                }, () -> ReglaNegocioExcepcion.vehiculoNoExiste.apply(id));
     }
 }

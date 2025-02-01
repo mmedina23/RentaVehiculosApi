@@ -16,17 +16,21 @@ public class Usuario {
     private String perfil;
     private String llave;
     private LocalDateTime fechaExpLlave;
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Persona persona;
 
     public Usuario() {
     }
 
-    public Usuario(LocalDateTime fechaExpLlave, String llave, String perfil, String contrasena, String usuario, Integer id) {
+    public Usuario(LocalDateTime fechaExpLlave, String llave, String perfil, String contrasena, String usuario, Integer id, Persona persona) {
         this.fechaExpLlave = fechaExpLlave;
         this.llave = llave;
         this.perfil = perfil;
         this.contrasena = contrasena;
         this.usuario = usuario;
         this.id = id;
+        this.persona = persona;
     }
 
     public Integer getId() {
@@ -75,5 +79,13 @@ public class Usuario {
 
     public void setFechaExpLlave(LocalDateTime fechaExpLlave) {
         this.fechaExpLlave = fechaExpLlave;
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
     }
 }

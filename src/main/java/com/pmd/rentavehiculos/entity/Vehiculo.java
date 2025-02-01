@@ -1,6 +1,7 @@
 package com.pmd.rentavehiculos.entity;
 
 import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 
 @Entity
@@ -104,5 +105,21 @@ public class Vehiculo {
 
     public void setDisponible(boolean disponible) {
         this.disponible = disponible;
+    }
+
+    public Vehiculo merge(Vehiculo vehiculo) {
+        var newVh = new Vehiculo();
+        newVh.setId(this.id);
+        newVh.setDisponible(vehiculo.isDisponible());
+
+        newVh.setMarca(null == vehiculo.getMarca() ? this.marca : vehiculo.getMarca());
+        newVh.setColor(null == vehiculo.getColor() ? this.color : vehiculo.getColor());
+        newVh.setCarroceria(null == vehiculo.getCarroceria() ? this.carroceria : vehiculo.getCarroceria());
+        newVh.setPlazas(null == vehiculo.getPlazas() ? this.plazas : vehiculo.getPlazas());
+        newVh.setCambios(null == vehiculo.getCambios() ? this.cambios : vehiculo.getCambios());
+        newVh.setTipoCombustible(null == vehiculo.getTipoCombustible() ? this.tipoCombustible : vehiculo.getTipoCombustible());
+        newVh.setValorDia(null == vehiculo.getValorDia() ? this.valorDia : vehiculo.getValorDia());
+
+        return newVh;
     }
 }
