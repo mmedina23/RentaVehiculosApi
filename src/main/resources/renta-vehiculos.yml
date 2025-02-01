@@ -57,6 +57,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Persona'
+  /personas/{id}/rentas:
+    get:
+      summary: Recupera los vehiculos rentados de la persona
+      operationId: obtenerRentasPorIdPersona
+      tags:
+        - personas
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: id de la persona
+          schema:
+            type: integer
+        - name: x-llave-api
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vehiculo'
   /vehiculos:
     get:
       summary: Recupera la lista de vehiculos
@@ -86,6 +113,26 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Vehiculo'
+    post:
+      summary: Crear vehiculos
+      operationId: crearVehiculo
+      tags:
+        - vehiculos
+      parameters:
+        - name: x-llave-api
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Información del vehiculo
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vehiculo'
+      responses:
+        '201':
+          description: OK
   /vehiculos/{id}:
     get:
       summary: Recupera un vehiculo por su identificador
@@ -111,8 +158,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Vehiculo'
     put:
-      summary: Reserva el vehiculo, debe estar disponible
-      operationId: reservarVehiculo
+      summary: Actualizar vehiculo por id
+      operationId: actualizarVehiculo
       tags:
         - vehiculos
       parameters:
@@ -127,13 +174,32 @@ paths:
           schema:
             type: string
       requestBody:
-        description: Información de la renta
+        description: Información del vehiculo
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Renta'
+              $ref: '#/components/schemas/Vehiculo'
       responses:
-        '200':
+        '202':
+          description: OK
+    delete:
+      summary: Eliminar vehiculo por id
+      operationId: eliminarVehiculo
+      tags:
+        - vehiculos
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: x-llave-api
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
           description: OK
     patch:
       summary: Libera un vehiculo rentado, debe ser propio o administrador
@@ -152,7 +218,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        '202':
           description: OK
   /vehiculos/{id}/rentas:
     get:
@@ -180,6 +246,31 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Renta'
+    post:
+      summary: Reserva el vehiculo, debe estar disponible
+      operationId: reservarVehiculo
+      tags:
+        - vehiculos
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: x-llave-api
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Información de la renta
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Renta'
+      responses:
+        '201':
+          description: OK
   /auth/login:
     post:
       summary: Registra al usuario en el sistema

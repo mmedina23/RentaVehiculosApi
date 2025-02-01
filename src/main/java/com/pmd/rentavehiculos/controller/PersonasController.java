@@ -2,6 +2,7 @@ package com.pmd.rentavehiculos.controller;
 
 import com.pmd.rentavehiculos.mapper.Mapper;
 import com.pmd.rentavehiculos.model.PersonaDto;
+import com.pmd.rentavehiculos.model.VehiculoDto;
 import com.pmd.rentavehiculos.service.PersonaService;
 import com.pmd.rentavehiculos.web.PersonasApi;
 import org.springframework.http.ResponseEntity;
@@ -34,5 +35,10 @@ public class PersonasController implements PersonasApi {
         ).orElseThrow();
 
         return ResponseEntity.ok(dto);
+    }
+
+    @Override
+    public ResponseEntity<List<VehiculoDto>> obtenerRentasPorIdPersona(Integer id, String xLlaveApi) {
+        return null;
     }
 }

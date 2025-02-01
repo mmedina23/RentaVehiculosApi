@@ -22,6 +22,21 @@ public class VehiculosController implements VehiculosApi {
     }
 
     @Override
+    public ResponseEntity<Void> actualizarVehiculo(Integer id, String xLlaveApi, VehiculoDto vehiculoDto) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<Void> crearVehiculo(String xLlaveApi, VehiculoDto vehiculoDto) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<Void> eliminarVehiculo(Integer id, String xLlaveApi) {
+        return null;
+    }
+
+    @Override
     public ResponseEntity<Void> liberarRentaVehiculo(Integer id, String xLlaveApi) {
         this.vehiculoService.liberarRentaVehiculo(id);
         return ResponseEntity.ok().build();
