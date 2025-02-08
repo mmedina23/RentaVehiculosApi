@@ -42,7 +42,8 @@ public class Mapper {
                 .cambios(VehiculoDto.CambiosEnum.fromValue(vehiculo.getCambios()))
                 .tipoCombustible(vehiculo.getTipoCombustible())
                 .valorDia(vehiculo.getValorDia())
-                .disponible(vehiculo.isDisponible());
+                .disponible(vehiculo.isDisponible())
+                .imagen(vehiculo.getImagen());
     }
 
     public static Vehiculo vehiculoDtoVehiculoEntity(VehiculoDto vehiculoDto) {
@@ -55,6 +56,7 @@ public class Mapper {
         vehiculo.setTipoCombustible(vehiculoDto.getTipoCombustible());
         vehiculo.setValorDia(vehiculoDto.getValorDia());
         vehiculo.setDisponible(vehiculoDto.getDisponible());
+        vehiculo.setImagen(vehiculoDto.getImagen());
 
         return vehiculo;
     }

@@ -19,11 +19,12 @@ public class Vehiculo {
     private String tipoCombustible;
     private BigDecimal valorDia;
     private boolean disponible;
+    private String imagen;
 
     public Vehiculo() {
     }
 
-    public Vehiculo(Integer id, String marca, String color, String carroceria, Integer plazas, String cambios, String tipoCombustible, BigDecimal valorDia, boolean disponible) {
+    public Vehiculo(Integer id, String marca, String color, String carroceria, Integer plazas, String cambios, String tipoCombustible, BigDecimal valorDia, boolean disponible, String imagen) {
         this.id = id;
         this.marca = marca;
         this.color = color;
@@ -33,6 +34,7 @@ public class Vehiculo {
         this.tipoCombustible = tipoCombustible;
         this.valorDia = valorDia;
         this.disponible = disponible;
+        this.imagen = imagen;
     }
 
     public Integer getId() {
@@ -107,6 +109,14 @@ public class Vehiculo {
         this.disponible = disponible;
     }
 
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
     public Vehiculo merge(Vehiculo vehiculo) {
         var newVh = new Vehiculo();
         newVh.setId(this.id);
@@ -119,6 +129,7 @@ public class Vehiculo {
         newVh.setCambios(null == vehiculo.getCambios() ? this.cambios : vehiculo.getCambios());
         newVh.setTipoCombustible(null == vehiculo.getTipoCombustible() ? this.tipoCombustible : vehiculo.getTipoCombustible());
         newVh.setValorDia(null == vehiculo.getValorDia() ? this.valorDia : vehiculo.getValorDia());
+        newVh.setImagen(null == vehiculo.getImagen() ? this.imagen : vehiculo.getImagen());
 
         return newVh;
     }

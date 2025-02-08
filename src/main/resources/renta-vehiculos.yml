@@ -394,6 +394,8 @@ components:
           minimum: 0.00
         disponible:
           type: boolean
+        imagen:
+          type: string
     Renta:
       type: object
       properties:

@@ -1,10 +1,12 @@
 package com.pmd.rentavehiculos.service;
 
 import com.pmd.rentavehiculos.entity.Renta;
+import com.pmd.rentavehiculos.entity.Vehiculo;
 import com.pmd.rentavehiculos.exception.ReglaNegocioExcepcion;
 import com.pmd.rentavehiculos.repository.RentaRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,8 +27,17 @@ public class RentaService {
         return this.rentaRepository.rentaPorIdVehiculo(id);
     }
 
-    public void crearRentaVehiculo(Renta renta) {
+    public void crearRentaVehiculo(Renta renta, Vehiculo vehiculo) {
+        validacionDatosRenta(vehiculo, renta);
         this.rentaRepository.save(renta);
+    }
+
+    private void validacionDatosRenta(Vehiculo vehiculo, Renta renta){
+        BigDecimal valorRenta =  vehiculo.getValorDia().multiply(BigDecimal.valueOf(renta.getDiasRenta()));
+
+        if (valorRenta.compareTo(renta.getValorTotalRenta()) != 0){
+            throw ReglaNegocioExcepcion.rentaInvalida;
+        }
     }
 
     public void liberarRentaVehiculo(Integer idVehiculo) {

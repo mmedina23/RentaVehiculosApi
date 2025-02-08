@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class VehiculosController implements VehiculosApi {
@@ -101,8 +102,9 @@ public class VehiculosController implements VehiculosApi {
         this.usuarioService.validaPropietarioLlave(rentaDto.getPersona().getId(), xLlaveApi);
         this.usuarioService.validaPerfilLlave("CLIENTE", xLlaveApi);
 
+        Optional<Vehiculo> vehiculo = this.vehiculoService.obtenerVehiculoPorId(id);
         this.vehiculoService.reservarVehiculo(id);
-        this.rentaService.crearRentaVehiculo(Mapper.rentaDtoToRentaEntity(rentaDto, id));
+        this.rentaService.crearRentaVehiculo(Mapper.rentaDtoToRentaEntity(rentaDto, id), vehiculo.get());
 
         return ResponseEntity.ok().build();
     }

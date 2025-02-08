@@ -10,6 +10,7 @@ public class ReglaNegocioExcepcion extends RuntimeException {
     public final static ReglaNegocioExcepcion errorAutenticacion = new ReglaNegocioExcepcion("Usuario o Contrasena Erroneo");
     public final static ReglaNegocioExcepcion llaveNoValida = new ReglaNegocioExcepcion("La llave no es valida");
     public final static ReglaNegocioExcepcion personaNoExiste = new ReglaNegocioExcepcion("Persona no existe");
+    public final static ReglaNegocioExcepcion rentaInvalida = new ReglaNegocioExcepcion("Valor de renta invalida");
 
     public ReglaNegocioExcepcion(String message) {
         super(message);
