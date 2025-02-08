@@ -1,7 +1,6 @@
 package com.pmd.rentavehiculos.controller;
 
 import com.pmd.rentavehiculos.entity.Vehiculo;
-import com.pmd.rentavehiculos.exception.ReglaNegocioExcepcion;
 import com.pmd.rentavehiculos.mapper.Mapper;
 import com.pmd.rentavehiculos.model.RentaDto;
 import com.pmd.rentavehiculos.model.VehiculoDto;
@@ -10,7 +9,6 @@ import com.pmd.rentavehiculos.service.UsuarioService;
 import com.pmd.rentavehiculos.service.VehiculoService;
 import com.pmd.rentavehiculos.web.VehiculosApi;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 

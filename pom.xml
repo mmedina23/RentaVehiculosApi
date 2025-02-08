@@ -95,7 +95,7 @@
                             <generatorName>spring</generatorName>
                             <apiPackage>${project.groupId}.web</apiPackage>
                             <modelPackage>${project.groupId}.model</modelPackage>
-                            <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
+                            <generateSupportingFiles>false</generateSupportingFiles>
                             <modelNameSuffix>Dto</modelNameSuffix>
                             <skipOperationExample>true</skipOperationExample>
                             <configOptions>
